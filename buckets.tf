@@ -1,5 +1,3 @@
-
-
 locals {
   configlogs_bucket_name     = "${var.buckets_prefix}-configlogs-${data.aws_caller_identity.current.account_id}-${var.buckets_suffix}"
   accesslogs_bucket_name     = "${var.buckets_prefix}-accesslog-${data.aws_caller_identity.current.account_id}-${var.buckets_suffix}"
