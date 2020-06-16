@@ -78,7 +78,7 @@ resource "aws_s3_bucket" "cloudtraillogs" {
   }
 
   lifecycle_rule {
-    id      = "accesslog_rules"
+    id      = "cloudtraillogs"
     enabled = true
 
     expiration {
@@ -187,7 +187,7 @@ resource "aws_s3_bucket" "configlogs" {
   }
 
   lifecycle_rule {
-    id      = "accesslog_rules"
+    id      = "configlogs"
     enabled = true
 
     expiration {
@@ -275,6 +275,20 @@ resource "aws_s3_bucket" "accesslogs" {
       storage_class = "GLACIER"
     }
   }
+
+  tags = var.tags
+}
+
+##############
+# CloudTrail #
+##############
+
+resource "aws_cloudtrail" "cloud-platform_cloudtrail" {
+  name                          = var.cloudtrail_name
+  s3_bucket_name                = aws_s3_bucket.cloudtraillogs.id
+  include_global_service_events = true
+  is_multi_region_trail         = true
+  enable_log_file_validation    = true
 
   tags = var.tags
 }
