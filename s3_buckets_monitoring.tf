@@ -83,7 +83,7 @@ resource "aws_lambda_function" "s3_bucket_block_publicaccess" {
     variables = {
       TOPIC_ARN    = aws_sns_topic.slack_integration.arn
       TOPIC_REGION = var.region
-      S3_EXCEPTION = var.s3_bucket_block_publickaccess_exceptions
+      S3_EXCEPTION = join(" ", var.s3_bucket_block_publickaccess_exceptions)
     }
   }
 
@@ -162,7 +162,7 @@ resource "aws_lambda_function" "s3_bucket_encryption" {
     variables = {
       TOPIC_ARN    = aws_sns_topic.slack_integration.arn
       TOPIC_REGION = var.region
-      S3_EXCEPTION = var.s3_bucket_enforce_encryption_exceptions
+      S3_EXCEPTION = join(" ", var.s3_bucket_enforce_encryption_exceptions)
     }
   }
 

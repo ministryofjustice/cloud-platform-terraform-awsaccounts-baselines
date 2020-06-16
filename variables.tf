@@ -44,13 +44,13 @@ variable "cloudtrail_name" {
 }
 
 variable "s3_bucket_enforce_encryption_exceptions" {
-  type        = string
-  description = "List (space separeted) of S3 buckets exceptions what S3 encryption Lambda enforcement is going to SKIP"
-  default     = ""
+  type        = list
+  description = "List of S3 buckets exceptions what S3 encryption Lambda enforcement is going to SKIP"
+  default     = []
 }
 
 variable "s3_bucket_block_publickaccess_exceptions" {
-  type        = string
-  description = "List (space separeted) of S3 buckets that S3 lambda function will SKIP the enforcement"
-  default     = ""
+  type        = list
+  description = "List of S3 buckets that S3 lambda function will SKIP the enforcement"
+  default     = []
 }
