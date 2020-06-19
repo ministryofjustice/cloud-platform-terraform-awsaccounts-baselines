@@ -1,4 +1,10 @@
 
+# variable "enable_s3_bucket_object_auto_remediation" {
+#   description = "Slack Webhook URL for sending alerts"
+#   type        = bool
+#   default = false
+# }
+
 variable "account_name" {
   type = string
 }
