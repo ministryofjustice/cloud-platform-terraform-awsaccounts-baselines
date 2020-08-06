@@ -27,7 +27,7 @@ variable "enable_logging" {
 
 variable "buckets_prefix" {
   type    = string
-  default = "cp-aws"
+  default = "cp"
 }
 
 variable "buckets_suffix" {

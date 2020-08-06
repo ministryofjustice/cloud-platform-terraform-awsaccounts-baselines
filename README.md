@@ -24,4 +24,4 @@ module "baselines" {
 
 | Name | Description |
 |------|-------------|
-| access_key_id | Access key id for the credentials. |
+| logging_buckets | Buckets created for logging |
