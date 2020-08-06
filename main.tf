@@ -29,11 +29,19 @@ module "slack_integration" {
   source  = "terraform-aws-modules/notify-slack/aws"
   version = "~> 3.0"
 
-  sns_topic_name = "slack-topic"
+  create = var.enable_slack_integration
 
+  sns_topic_name    = "slack-topic"
   slack_webhook_url = var.slack_webhook
   slack_channel     = var.slack_channel
   slack_username    = "reporter"
 
   tags = var.tags
+}
+
+module "cloudwatch" {
+  source = "./modules/cloudwatch"
+
+  enable_cloudwatch = var.enable_cloudwatch
+  slack_topic_arn   = module.slack_integration.this_slack_topic_arn
 }

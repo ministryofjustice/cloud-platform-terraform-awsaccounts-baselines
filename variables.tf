@@ -1,8 +1,4 @@
 # START: Global vars
-variable "account_name" {
-  type = string
-}
-
 variable "region" {
   type = string
 }
@@ -43,33 +39,29 @@ variable "cloudtrail_name" {
 # END: logging module
 
 # START: slack_integration module
+variable "enable_slack_integration" {
+  type        = bool
+  default     = true
+  description = "Enable/Disable slack integration module - it creates SNS and Lambda function to send slack notifications"
+}
+
 variable "slack_webhook" {
   description = "Slack Webhook URL for sending alerts"
   type        = string
+  default     = ""
 }
 
 variable "slack_channel" {
   description = "Slack channel where alerts are sent"
   type        = string
+  default     = ""
 }
 # END: slack_integration module
 
-
-# variable "enable_s3_bucket_object_auto_remediation" {
-#   description = "Slack Webhook URL for sending alerts"
-#   type        = bool
-#   default = false
-# }
-
-
-# variable "s3_bucket_enforce_encryption_exceptions" {
-#   type        = list
-#   description = "List of S3 buckets exceptions what S3 encryption Lambda enforcement is going to SKIP"
-#   default     = []
-# }
-
-# variable "s3_bucket_block_publickaccess_exceptions" {
-#   type        = list
-#   description = "List of S3 buckets that S3 lambda function will SKIP the enforcement"
-#   default     = []
-# }
+# START: cloudwatch module
+variable "enable_cloudwatch" {
+  type        = bool
+  default     = true
+  description = "Enable/Disable cloudwatch module."
+}
+# END: cloudwatch module

@@ -15,7 +15,6 @@ module "baselines" {
 
 | Name         | Description | Type | Default | Required |
 |--------------|-------------|:----:|:-----:|:-----:|
-| account_name | Name of the account, used in almost all resources to identify and tag | string | | yes |
 | region | Region where resources are going to be created/deployed | string | | yes |
 | buckets_prefix | The prefix used for the S3 buckets which are going to be created | string | `cp-aws` | no |
 | buckets_suffix | The suffix used for the S3 buckets which are going to be created | string | `-do-not-delete` | no |
