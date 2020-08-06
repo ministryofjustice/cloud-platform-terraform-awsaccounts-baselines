@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 locals {
   configlogs_bucket_name     = "${var.buckets_prefix}-configlogs-${data.aws_caller_identity.current.account_id}-${var.buckets_suffix}"
   accesslogs_bucket_name     = "${var.buckets_prefix}-accesslog-${data.aws_caller_identity.current.account_id}-${var.buckets_suffix}"
@@ -9,6 +11,8 @@ locals {
 #####################
 
 data "aws_iam_policy_document" "cloudtraillogs" {
+  count = var.enable_logging ? 1 : 0
+
   statement {
     sid    = "CloudTrailBucketPolicy9999"
     effect = "Allow"
@@ -56,16 +60,18 @@ data "aws_iam_policy_document" "cloudtraillogs" {
 }
 
 resource "aws_s3_bucket" "cloudtraillogs" {
+  count = var.enable_logging ? 1 : 0
+
   bucket = local.cloudtraillogs_bucket_name
   region = var.region
-  policy = data.aws_iam_policy_document.cloudtraillogs.json
+  policy = data.aws_iam_policy_document.cloudtraillogs.0.json
 
   versioning {
     enabled = true
   }
 
   logging {
-    target_bucket = aws_s3_bucket.accesslogs.id
+    target_bucket = aws_s3_bucket.accesslogs.0.id
     target_prefix = "log/"
   }
 
@@ -118,6 +124,8 @@ resource "aws_s3_bucket" "cloudtraillogs" {
 ###############
 
 data "aws_iam_policy_document" "configlogs" {
+  count = var.enable_logging ? 1 : 0
+
   statement {
     sid    = "AWSConfigBucketPermissionsCheck"
     effect = "Allow"
@@ -165,16 +173,18 @@ data "aws_iam_policy_document" "configlogs" {
 }
 
 resource "aws_s3_bucket" "configlogs" {
+  count = var.enable_logging ? 1 : 0
+
   bucket = local.configlogs_bucket_name
   region = var.region
-  policy = data.aws_iam_policy_document.configlogs.json
+  policy = data.aws_iam_policy_document.configlogs.0.json
 
   versioning {
     enabled = true
   }
 
   logging {
-    target_bucket = aws_s3_bucket.accesslogs.id
+    target_bucket = aws_s3_bucket.accesslogs.0.id
     target_prefix = "log/"
   }
 
@@ -227,6 +237,8 @@ resource "aws_s3_bucket" "configlogs" {
 ###############
 
 resource "aws_s3_bucket" "accesslogs" {
+  count = var.enable_logging ? 1 : 0
+
   bucket = local.accesslogs_bucket_name
   region = var.region
   acl    = "log-delivery-write"
@@ -284,8 +296,10 @@ resource "aws_s3_bucket" "accesslogs" {
 ##############
 
 resource "aws_cloudtrail" "cloud-platform_cloudtrail" {
+  count = var.enable_logging ? 1 : 0
+
   name                          = var.cloudtrail_name
-  s3_bucket_name                = aws_s3_bucket.cloudtraillogs.id
+  s3_bucket_name                = aws_s3_bucket.cloudtraillogs.0.id
   include_global_service_events = true
   is_multi_region_trail         = true
   enable_log_file_validation    = true
