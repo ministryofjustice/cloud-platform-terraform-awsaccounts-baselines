@@ -16,6 +16,7 @@ module "baselines" {
 | Name         | Description | Type | Default | Required |
 |--------------|-------------|:----:|:-----:|:-----:|
 | region | Region where resources are going to be created/deployed | string | | yes |
+| region | Tags for every single resource | map(string) | (check variables file) | no |
 | buckets_prefix | The prefix used for the S3 buckets which are going to be created | string | `cp-aws` | no |
 | buckets_suffix | The suffix used for the S3 buckets which are going to be created | string | `-do-not-delete` | no |
 
