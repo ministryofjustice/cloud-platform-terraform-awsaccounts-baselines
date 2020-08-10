@@ -45,3 +45,12 @@ module "cloudwatch" {
   enable_cloudwatch = var.enable_cloudwatch
   slack_topic_arn   = module.slack_integration.this_slack_topic_arn
 }
+
+module "lambdas" {
+  source = "./modules/lambdas"
+
+  region                                  = var.region
+  enable_lambdas                          = var.enable_lambdas
+  slack_topic_arn                         = module.slack_integration.this_slack_topic_arn
+  s3_bucket_enforce_encryption_exceptions = var.s3_bucket_enforce_encryption_exceptions
+}
