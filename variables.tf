@@ -65,3 +65,17 @@ variable "enable_cloudwatch" {
   description = "Enable/Disable cloudwatch module."
 }
 # END: cloudwatch module
+
+# START: lambdas module
+variable "enable_lambdas" {
+  type        = bool
+  default     = true
+  description = "Enable/Disable lambdas module."
+}
+
+variable "s3_bucket_enforce_encryption_exceptions" {
+  type        = list(string)
+  default     = [""]
+  description = "S3 buckets exceptions for encryption remediation"
+}
+# END: lambdas module
