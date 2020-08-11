@@ -13,3 +13,7 @@ variable "region" {
 variable "s3_bucket_enforce_encryption_exceptions" {
   type = list(string)
 }
+
+variable "s3_bucket_block_publickaccess_exceptions" {
+  type = list(string)
+}

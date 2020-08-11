@@ -119,6 +119,16 @@ resource "aws_s3_bucket" "cloudtraillogs" {
   tags = var.tags
 }
 
+resource "aws_s3_bucket_public_access_block" "cloudtraillogs" {
+  count = var.enable_logging ? 1 : 0
+
+  bucket = aws_s3_bucket.cloudtraillogs.0.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 ###############
 # Config Logs #
 ###############
@@ -232,6 +242,16 @@ resource "aws_s3_bucket" "configlogs" {
   tags = var.tags
 }
 
+resource "aws_s3_bucket_public_access_block" "configlogs" {
+  count = var.enable_logging ? 1 : 0
+
+  bucket = aws_s3_bucket.configlogs.0.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 ###############
 # Access Logs #
 ###############
@@ -289,6 +309,16 @@ resource "aws_s3_bucket" "accesslogs" {
   }
 
   tags = var.tags
+}
+
+resource "aws_s3_bucket_public_access_block" "accesslogs" {
+  count = var.enable_logging ? 1 : 0
+
+  bucket = aws_s3_bucket.accesslogs.0.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 ##############
