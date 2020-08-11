@@ -14,6 +14,6 @@ variable "s3_bucket_enforce_encryption_exceptions" {
   type = list(string)
 }
 
-variable "s3_bucket_block_publickaccess_exceptions" {
+variable "s3_bucket_block_publicaccess_exceptions" {
   type = list(string)
 }

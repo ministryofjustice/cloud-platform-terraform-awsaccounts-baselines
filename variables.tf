@@ -79,7 +79,7 @@ variable "s3_bucket_enforce_encryption_exceptions" {
   description = "S3 buckets exceptions for encryption remediation"
 }
 
-variable "s3_bucket_block_publickaccess_exceptions" {
+variable "s3_bucket_block_publicaccess_exceptions" {
   type        = list(string)
   default     = [""]
   description = "S3 buckets exceptions for publicaccess remediation"

@@ -49,9 +49,9 @@ module "cloudwatch" {
 module "lambdas" {
   source = "./modules/lambdas"
 
-  region                                   = var.region
-  enable_lambdas                           = var.enable_lambdas
-  slack_topic_arn                          = module.slack_integration.this_slack_topic_arn
-  s3_bucket_enforce_encryption_exceptions  = var.s3_bucket_enforce_encryption_exceptions
-  s3_bucket_block_publickaccess_exceptions = var.s3_bucket_block_publickaccess_exceptions
+  region                                  = var.region
+  enable_lambdas                          = var.enable_lambdas
+  slack_topic_arn                         = module.slack_integration.this_slack_topic_arn
+  s3_bucket_enforce_encryption_exceptions = var.s3_bucket_enforce_encryption_exceptions
+  s3_bucket_block_publicaccess_exceptions = var.s3_bucket_block_publicaccess_exceptions
 }
