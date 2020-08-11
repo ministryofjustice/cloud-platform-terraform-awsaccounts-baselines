@@ -91,7 +91,7 @@ resource "aws_lambda_function" "s3_bucket_block_publicaccess" {
     variables = {
       TOPIC_ARN    = var.slack_topic_arn
       TOPIC_REGION = var.region
-      S3_EXCEPTION = join(" ", var.s3_bucket_block_publickaccess_exceptions)
+      S3_EXCEPTION = join(" ", var.s3_bucket_block_publicaccess_exceptions)
     }
   }
 
