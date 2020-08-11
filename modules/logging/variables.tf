@@ -16,9 +16,9 @@ variable "region" {
 }
 
 variable "cloudtrail_name" {
-  type        = string
+  type = string
 }
 
 variable "enable_logging" {
-  type        = bool
+  type = bool
 }
