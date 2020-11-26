@@ -63,7 +63,6 @@ resource "aws_s3_bucket" "cloudtraillogs" {
   count = var.enable_logging ? 1 : 0
 
   bucket = local.cloudtraillogs_bucket_name
-  region = var.region
   policy = data.aws_iam_policy_document.cloudtraillogs.0.json
 
   versioning {
@@ -186,7 +185,6 @@ resource "aws_s3_bucket" "configlogs" {
   count = var.enable_logging ? 1 : 0
 
   bucket = local.configlogs_bucket_name
-  region = var.region
   policy = data.aws_iam_policy_document.configlogs.0.json
 
   versioning {
@@ -260,7 +258,6 @@ resource "aws_s3_bucket" "accesslogs" {
   count = var.enable_logging ? 1 : 0
 
   bucket = local.accesslogs_bucket_name
-  region = var.region
   acl    = "log-delivery-write"
 
   versioning {
