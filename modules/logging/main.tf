@@ -63,14 +63,14 @@ resource "aws_s3_bucket" "cloudtraillogs" {
   count = var.enable_logging ? 1 : 0
 
   bucket = local.cloudtraillogs_bucket_name
-  policy = data.aws_iam_policy_document.cloudtraillogs.0.json
+  policy = data.aws_iam_policy_document.cloudtraillogs[0].json
 
   versioning {
     enabled = true
   }
 
   logging {
-    target_bucket = aws_s3_bucket.accesslogs.0.id
+    target_bucket = aws_s3_bucket.accesslogs[0].id
     target_prefix = "log/"
   }
 
@@ -121,7 +121,7 @@ resource "aws_s3_bucket" "cloudtraillogs" {
 resource "aws_s3_bucket_public_access_block" "cloudtraillogs" {
   count = var.enable_logging ? 1 : 0
 
-  bucket                  = aws_s3_bucket.cloudtraillogs.0.id
+  bucket                  = aws_s3_bucket.cloudtraillogs[0].id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
@@ -185,14 +185,14 @@ resource "aws_s3_bucket" "configlogs" {
   count = var.enable_logging ? 1 : 0
 
   bucket = local.configlogs_bucket_name
-  policy = data.aws_iam_policy_document.configlogs.0.json
+  policy = data.aws_iam_policy_document.configlogs[0].json
 
   versioning {
     enabled = true
   }
 
   logging {
-    target_bucket = aws_s3_bucket.accesslogs.0.id
+    target_bucket = aws_s3_bucket.accesslogs[0].id
     target_prefix = "log/"
   }
 
@@ -243,7 +243,7 @@ resource "aws_s3_bucket" "configlogs" {
 resource "aws_s3_bucket_public_access_block" "configlogs" {
   count = var.enable_logging ? 1 : 0
 
-  bucket                  = aws_s3_bucket.configlogs.0.id
+  bucket                  = aws_s3_bucket.configlogs[0].id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
@@ -311,7 +311,7 @@ resource "aws_s3_bucket" "accesslogs" {
 resource "aws_s3_bucket_public_access_block" "accesslogs" {
   count = var.enable_logging ? 1 : 0
 
-  bucket                  = aws_s3_bucket.accesslogs.0.id
+  bucket                  = aws_s3_bucket.accesslogs[0].id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
@@ -326,7 +326,7 @@ resource "aws_cloudtrail" "cloud-platform_cloudtrail" {
   count = var.enable_logging ? 1 : 0
 
   name                          = var.cloudtrail_name
-  s3_bucket_name                = aws_s3_bucket.cloudtraillogs.0.id
+  s3_bucket_name                = aws_s3_bucket.cloudtraillogs[0].id
   include_global_service_events = true
   is_multi_region_trail         = true
   enable_log_file_validation    = true

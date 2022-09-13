@@ -1,6 +1,7 @@
 # START: Global vars
 variable "region" {
-  type = string
+  type        = string
+  description = "Region the SNS topic is in"
 }
 
 variable "tags" {
@@ -22,13 +23,15 @@ variable "enable_logging" {
 }
 
 variable "buckets_prefix" {
-  type    = string
-  default = "cp"
+  type        = string
+  default     = "cp"
+  description = "Prefix for bucket names"
 }
 
 variable "buckets_suffix" {
-  type    = string
-  default = "do-not-delete"
+  type        = string
+  default     = "do-not-delete"
+  description = "Suffix for bucket names"
 }
 
 variable "cloudtrail_name" {
@@ -67,12 +70,6 @@ variable "enable_cloudwatch" {
 # END: cloudwatch module
 
 # START: lambdas module
-variable "enable_lambdas" {
-  type        = bool
-  default     = true
-  description = "Enable/Disable lambdas module."
-}
-
 variable "s3_bucket_enforce_encryption_exceptions" {
   type        = list(string)
   default     = [""]

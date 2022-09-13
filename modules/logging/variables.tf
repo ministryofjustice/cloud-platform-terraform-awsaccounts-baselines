@@ -1,24 +1,24 @@
-
 variable "buckets_prefix" {
-  type = string
+  type        = string
+  description = "Prefix for bucket names"
 }
 
 variable "buckets_suffix" {
-  type = string
+  type        = string
+  description = "Suffix for bucket names"
 }
 
 variable "tags" {
-  type = map(string)
-}
-
-variable "region" {
-  type = string
+  type        = map(string)
+  description = "Map of tags"
 }
 
 variable "cloudtrail_name" {
-  type = string
+  type        = string
+  description = "Name of CloudTrail trail"
 }
 
 variable "enable_logging" {
-  type = bool
+  type        = bool
+  description = "Whether to enable CloudTrail"
 }

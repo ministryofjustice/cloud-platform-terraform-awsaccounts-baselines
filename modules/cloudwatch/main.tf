@@ -1,8 +1,6 @@
-
 #########
 # rules #
 #########
-
 resource "aws_cloudwatch_event_rule" "dlm_state" {
   count = var.enable_cloudwatch ? 1 : 0
 
@@ -24,13 +22,12 @@ resource "aws_cloudwatch_event_rule" "dlm_state" {
   }
 }
 PATTERN
-
 }
 
 resource "aws_cloudwatch_event_target" "dlm_sns" {
   count = var.enable_cloudwatch ? 1 : 0
 
-  rule      = aws_cloudwatch_event_rule.dlm_state.0.name
+  rule      = aws_cloudwatch_event_rule.dlm_state[0].name
   target_id = "SendToSNS"
   arn       = var.slack_topic_arn
 }
