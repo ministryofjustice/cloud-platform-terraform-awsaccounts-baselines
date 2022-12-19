@@ -38,3 +38,10 @@ module "lambdas" {
   s3_bucket_enforce_encryption_exceptions = var.s3_bucket_enforce_encryption_exceptions
   s3_bucket_block_publicaccess_exceptions = var.s3_bucket_block_publicaccess_exceptions
 }
+
+module "access_analyzer" {
+  source               = "./modules/access-analyzer"
+  access_analyzer_name = "account-analyzer"
+
+  tags = var.tags
+}
