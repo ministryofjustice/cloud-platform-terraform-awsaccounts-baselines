@@ -11,7 +11,7 @@ module "baselines" {
   account_name = "cloud-platform-production"
 }
 ```
-<!--- BEGIN_TF_DOCS --->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -59,5 +59,4 @@ No resources.
 |------|-------------|
 | <a name="output_logging_buckets"></a> [logging\_buckets](#output\_logging\_buckets) | Buckets created for all account logs related |
 | <a name="output_slack_sns_topic"></a> [slack\_sns\_topic](#output\_slack\_sns\_topic) | Slack integration sns topic name |
-
-<!--- END_TF_DOCS --->
+<!-- END_TF_DOCS -->
