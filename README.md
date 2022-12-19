@@ -26,6 +26,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_access_analyzer"></a> [access\_analyzer](#module\_access\_analyzer) | ./modules/access-analyzer | n/a |
 | <a name="module_cloudwatch"></a> [cloudwatch](#module\_cloudwatch) | ./modules/cloudwatch | n/a |
 | <a name="module_lambdas"></a> [lambdas](#module\_lambdas) | ./modules/lambdas | n/a |
 | <a name="module_logging"></a> [logging](#module\_logging) | ./modules/logging | n/a |
