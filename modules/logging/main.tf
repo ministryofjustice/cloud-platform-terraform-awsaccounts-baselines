@@ -322,11 +322,65 @@ resource "aws_s3_bucket_public_access_block" "accesslogs" {
 # CloudTrail #
 ##############
 
+
+resource "aws_cloudwatch_log_group" "log_group" {
+  name = "/aws/cloudtrail/${var.cloudtrail_name}"
+}
+
+# create the policy and role for the role that will be attached to 
+# the trail so it can write cloudwatch
+resource "aws_iam_role" "cloudtrail_writer" {
+  count = var.enable_logging ? 1 : 0
+  name = "CloudTrailRoleforCloudwatchLogs-cloud-platform-cloudtrail"
+  path = "/"
+
+  assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+               "Service": "cloudtrail.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+        }
+    ]
+}
+EOF
+}
+
+
+data "aws_iam_policy_document" "trail_policy" {
+  statement {
+    effect    = "Allow"
+
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+
+    resources = ["${data.aws_cloudwatch_log_group.logs_destination.arn}"]
+  }
+
+}
+
+resource "aws_iam_policy" "trail_writer" {
+  count = var.enable_logging ? 1 : 0
+  name        = "CloudTrailPolicyforCloudwatchLogs-${var.cloudtrail_name}"
+  description = "write access to CloudWatch Logs for CloudTrail ${var.cloudtrail_name}"
+  policy      = "${data.aws_iam_policy_document.trail_policy.json}"
+}
+
+
 resource "aws_cloudtrail" "cloud-platform_cloudtrail" {
   count = var.enable_logging ? 1 : 0
 
   name                          = var.cloudtrail_name
   s3_bucket_name                = aws_s3_bucket.cloudtraillogs[0].id
+  cloud_watch_logs_group_arn    = aws_cloudwatch_log_group.log_group[0].arn
+  cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_writer[0].arn
   include_global_service_events = true
   is_multi_region_trail         = true
   enable_log_file_validation    = true
