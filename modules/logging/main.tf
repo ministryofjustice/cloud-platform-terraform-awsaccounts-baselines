@@ -328,8 +328,8 @@ resource "aws_cloudwatch_log_group" "log_group" {
   name = "/aws/cloudtrail/${var.cloudtrail_name}"
 }
 
-# create the policy and role for the role that will be attached to 
-# the trail so it can write cloudwatch
+# create the policy and role that will be attached to 
+# the Cloudtrail so it can write cloudwatch
 resource "aws_iam_role" "cloudtrail_writer" {
   count = var.enable_logging ? 1 : 0
   name  = "CloudTrailRoleforCloudwatchLogs-cloud-platform-cloudtrail"
@@ -361,7 +361,7 @@ data "aws_iam_policy_document" "trail_policy" {
       "logs:CreateLogStream",
       "logs:PutLogEvents",
     ]
-    resources = [aws_cloudwatch_log_group.log_group[0].arn]
+    resources = ["${aws_cloudwatch_log_group.log_group[0].arn}:*"]
   }
 
 }
@@ -391,7 +391,7 @@ resource "aws_cloudwatch_log_metric_filter" "secrets_manager_put_secret_value" {
   }
 }
 
-resource "aws_cloudwatch_log_metric_filter" "secrets_manager" {
+resource "aws_cloudwatch_log_metric_filter" "secrets_manager_delete_secret" {
   count       = var.enable_logging ? 1 : 0
   name          = "SecretsManagerDeleteSecret"
   pattern       = "{ ($.eventName = DeleteSecret) }"
