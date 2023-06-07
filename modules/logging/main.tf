@@ -373,13 +373,48 @@ resource "aws_iam_policy" "trail_writer" {
   policy      = data.aws_iam_policy_document.trail_policy.json
 }
 
+# Custom CloudWatch metric for Secrets Manager events from CloudTrail
+resource "aws_cloudwatch_log_metric_filter" "secrets_manager_put_secret_value" {
+  count       = var.enable_logging ? 1 : 0
+  name          = "SecretsManagerPutSecretValue"
+  pattern       = "{ ($.eventName = PutSecretValue) }"
+  log_group_name = aws_cloudwatch_log_group.log_group[0].name
+   metric_transformation {
+    name      = "PutSecretValue"
+    namespace = "secretsManager"
+    value     = 1
+    unit     = "Count"
+  dimensions = {
+        SecretId = "$.requestParameters.secretId"
+        UserID = "$.userIdentity.principalId"
+      }
+  }
+}
+
+resource "aws_cloudwatch_log_metric_filter" "secrets_manager" {
+  count       = var.enable_logging ? 1 : 0
+  name          = "SecretsManagerDeleteSecret"
+  pattern       = "{ ($.eventName = DeleteSecret) }"
+  log_group_name = aws_cloudwatch_log_group.log_group[0].name
+   metric_transformation {
+    name      = "DeleteSecret"
+    namespace = "secretsManager"
+    value     = 1
+    unit     = "Count"
+  dimensions = {
+        SecretId = "$.requestParameters.secretId"
+        UserID = "$.userIdentity.principalId"
+      }
+  }
+}
+
 
 resource "aws_cloudtrail" "cloud-platform_cloudtrail" {
   count = var.enable_logging ? 1 : 0
 
   name                          = var.cloudtrail_name
   s3_bucket_name                = aws_s3_bucket.cloudtraillogs[0].id
-  cloud_watch_logs_group_arn    = aws_cloudwatch_log_group.log_group[0].arn
+  cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.log_group[0].arn}:*"
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_writer[0].arn
   include_global_service_events = true
   is_multi_region_trail         = true
