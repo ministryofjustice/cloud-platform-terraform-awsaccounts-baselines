@@ -322,11 +322,100 @@ resource "aws_s3_bucket_public_access_block" "accesslogs" {
 # CloudTrail #
 ##############
 
+
+resource "aws_cloudwatch_log_group" "log_group" {
+  count = var.enable_logging ? 1 : 0
+  name = "/aws/cloudtrail/${var.cloudtrail_name}"
+}
+
+# create the policy and role that will be attached to 
+# the Cloudtrail so it can write cloudwatch
+resource "aws_iam_role" "cloudtrail_writer" {
+  count = var.enable_logging ? 1 : 0
+  name  = "CloudTrailRoleforCloudwatchLogs-cloud-platform-cloudtrail"
+  path  = "/"
+
+  assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+               "Service": "cloudtrail.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+        }
+    ]
+}
+EOF
+}
+
+
+data "aws_iam_policy_document" "trail_policy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+    resources = ["${aws_cloudwatch_log_group.log_group[0].arn}:*"]
+  }
+
+}
+
+resource "aws_iam_policy" "trail_writer" {
+  count       = var.enable_logging ? 1 : 0
+  name        = "CloudTrailPolicyforCloudwatchLogs-${var.cloudtrail_name}"
+  description = "write access to CloudWatch Logs for CloudTrail ${var.cloudtrail_name}"
+  policy      = data.aws_iam_policy_document.trail_policy.json
+}
+
+# Custom CloudWatch metric for Secrets Manager events from CloudTrail
+resource "aws_cloudwatch_log_metric_filter" "secrets_manager_put_secret_value" {
+  count       = var.enable_logging ? 1 : 0
+  name          = "SecretsManagerPutSecretValue"
+  pattern       = "{ ($.eventName = PutSecretValue) }"
+  log_group_name = aws_cloudwatch_log_group.log_group[0].name
+   metric_transformation {
+    name      = "PutSecretValue"
+    namespace = "secretsManager"
+    value     = 1
+    unit     = "Count"
+  dimensions = {
+        SecretId = "$.requestParameters.secretId"
+        UserID = "$.userIdentity.principalId"
+      }
+  }
+}
+
+resource "aws_cloudwatch_log_metric_filter" "secrets_manager_delete_secret" {
+  count       = var.enable_logging ? 1 : 0
+  name          = "SecretsManagerDeleteSecret"
+  pattern       = "{ ($.eventName = DeleteSecret) }"
+  log_group_name = aws_cloudwatch_log_group.log_group[0].name
+   metric_transformation {
+    name      = "DeleteSecret"
+    namespace = "secretsManager"
+    value     = 1
+    unit     = "Count"
+  dimensions = {
+        SecretId = "$.requestParameters.secretId"
+        UserID = "$.userIdentity.principalId"
+      }
+  }
+}
+
+
 resource "aws_cloudtrail" "cloud-platform_cloudtrail" {
   count = var.enable_logging ? 1 : 0
 
   name                          = var.cloudtrail_name
   s3_bucket_name                = aws_s3_bucket.cloudtraillogs[0].id
+  cloud_watch_logs_group_arn    = "${aws_cloudwatch_log_group.log_group[0].arn}:*"
+  cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_writer[0].arn
   include_global_service_events = true
   is_multi_region_trail         = true
   enable_log_file_validation    = true
