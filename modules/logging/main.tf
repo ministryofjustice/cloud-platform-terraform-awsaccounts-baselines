@@ -393,7 +393,7 @@ resource "aws_cloudwatch_log_metric_filter" "secrets_manager_put_secret_value" {
     unit     = "Count"
   dimensions = {
         SecretId = "$.requestParameters.secretId"
-        UserID = "$.userIdentity.principalId"
+        UserArn = "$.userIdentity.arn"
       }
   }
 }
@@ -410,7 +410,7 @@ resource "aws_cloudwatch_log_metric_filter" "secrets_manager_delete_secret" {
     unit     = "Count"
   dimensions = {
         SecretId = "$.requestParameters.secretId"
-        UserID = "$.userIdentity.principalId"
+        UserArn = "$.userIdentity.arn"
       }
   }
 }
