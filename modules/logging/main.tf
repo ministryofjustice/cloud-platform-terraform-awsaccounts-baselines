@@ -373,6 +373,13 @@ resource "aws_iam_policy" "trail_writer" {
   policy      = data.aws_iam_policy_document.trail_policy.json
 }
 
+resource "aws_iam_policy_attachment" "trail_writer" {
+  count       = var.enable_logging ? 1 : 0
+  name        = "CloudTrailPolicyAttachmentforCloudwatchLogs-${var.cloudtrail_name}"
+  roles       = [aws_iam_role.cloudtrail_writer[0].name]
+  policy_arn  = aws_iam_policy.trail_writer[0].arn
+}
+
 # Custom CloudWatch metric for Secrets Manager events from CloudTrail
 resource "aws_cloudwatch_log_metric_filter" "secrets_manager_put_secret_value" {
   count       = var.enable_logging ? 1 : 0
@@ -386,7 +393,7 @@ resource "aws_cloudwatch_log_metric_filter" "secrets_manager_put_secret_value" {
     unit     = "Count"
   dimensions = {
         SecretId = "$.requestParameters.secretId"
-        UserID = "$.userIdentity.principalId"
+        UserArn = "$.userIdentity.arn"
       }
   }
 }
@@ -403,7 +410,7 @@ resource "aws_cloudwatch_log_metric_filter" "secrets_manager_delete_secret" {
     unit     = "Count"
   dimensions = {
         SecretId = "$.requestParameters.secretId"
-        UserID = "$.userIdentity.principalId"
+        UserArn = "$.userIdentity.arn"
       }
   }
 }
