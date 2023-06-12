@@ -11,7 +11,7 @@ module "logging" {
 
 module "slack_integration" {
   source  = "terraform-aws-modules/notify-slack/aws"
-  version = "~> v5.0"
+  version = "~> 6.0"
 
   create = var.enable_slack_integration
 
