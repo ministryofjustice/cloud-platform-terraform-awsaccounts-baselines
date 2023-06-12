@@ -31,7 +31,7 @@ No providers.
 | <a name="module_cloudwatch"></a> [cloudwatch](#module\_cloudwatch) | ./modules/cloudwatch | n/a |
 | <a name="module_lambdas"></a> [lambdas](#module\_lambdas) | ./modules/lambdas | n/a |
 | <a name="module_logging"></a> [logging](#module\_logging) | ./modules/logging | n/a |
-| <a name="module_slack_integration"></a> [slack\_integration](#module\_slack\_integration) | terraform-aws-modules/notify-slack/aws | ~> v5.0 |
+| <a name="module_slack_integration"></a> [slack\_integration](#module\_slack\_integration) | terraform-aws-modules/notify-slack/aws | ~> 6.0 |
 
 ## Resources
 
