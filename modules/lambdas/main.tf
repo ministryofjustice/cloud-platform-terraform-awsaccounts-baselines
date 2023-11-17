@@ -84,7 +84,7 @@ resource "aws_lambda_function" "s3_bucket_block_publicaccess" {
   description   = "Determine the list of S3 private buckets and apply Public Access Block permissions"
   handler       = "index.lambda_handler"
   role          = aws_iam_role.s3_bucket_block_publicaccess.arn
-  runtime       = "python3.6"
+  runtime       = "python3.9"
   timeout       = 600
 
   environment {
@@ -164,7 +164,7 @@ resource "aws_lambda_function" "s3_bucket_encryption" {
   description   = "Determine the list of S3 buckets that are not encrypted and apply default encryption"
   handler       = "index.lambda_handler"
   role          = aws_iam_role.s3_bucket_encryption.arn
-  runtime       = "python3.6"
+  runtime       = "python3.9"
   timeout       = 600
 
   environment {
