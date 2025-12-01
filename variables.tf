@@ -8,9 +8,11 @@ variable "tags" {
   description = "A map of tags to add to all resources."
   type        = map(string)
   default = {
-    business-unit          = "mojdigital"
-    owner                  = "cloud-platform"
-    infrastructure-support = "platform@digital.justice.gov.uk"
+    business-unit          = "Platforms"
+    service-area           = "Infrastructure"
+    application            = "cloud-platform-aws/account"
+    is-production          = "true"
+    owner                  = "Cloud Platform: platforms@digital.justice.gov.uk"
   }
 }
 # END: Global vars
