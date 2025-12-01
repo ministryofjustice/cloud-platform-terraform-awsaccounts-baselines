@@ -52,7 +52,7 @@ No resources.
 | <a name="input_s3_bucket_enforce_encryption_exceptions"></a> [s3\_bucket\_enforce\_encryption\_exceptions](#input\_s3\_bucket\_enforce\_encryption\_exceptions) | S3 buckets exceptions for encryption remediation | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | <a name="input_slack_channel"></a> [slack\_channel](#input\_slack\_channel) | Slack channel where alerts are sent | `string` | `""` | no |
 | <a name="input_slack_webhook"></a> [slack\_webhook](#input\_slack\_webhook) | Slack Webhook URL for sending alerts | `string` | `""` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | <pre>{<br>  "business-unit": "Platforms",<br>  "service-area": "Infrastructure",<br> "application": "cloud-platform-aws/account", <br> "is-production": "true",<br> "owner": "Cloud Platform: platforms@digital.justice.gov.uk"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | <pre>{<br>  "application": "cloud-platform-aws/account",<br>  "business-unit": "Platforms",<br>  "is-production": "true",<br>  "owner": "Cloud Platform: platforms@digital.justice.gov.uk",<br>  "service-area": "Infrastructure"<br>}</pre> | no |
 
 ## Outputs
 
